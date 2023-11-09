@@ -6,6 +6,10 @@ require("hardhat-gas-reporter")
 require("hardhat-contract-sizer")
 require("dotenv").config()
 
+const { ProxyAgent, setGlobalDispatcher } = require("undici")
+const proxyAgent = new ProxyAgent("http://127.0.0.1:7890")
+setGlobalDispatcher(proxyAgent)
+
 const SEPOLIA_RPC_URL = process.env.SEPOLIA_RPC_URL
 const PRIVATE_KEY = process.env.PRIVATE_KEY //来自metamask
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY
@@ -25,6 +29,21 @@ module.exports = {
             accounts: [PRIVATE_KEY],
         },
     },
+    etherscan: {
+        apiKey: {
+            sepolia: ETHERSCAN_API_KEY,
+        },
+        customChains: [
+            // {
+            //     network: "sepolia",
+            //     chainId: 11155111,
+            //     urls: {
+            //         apiURL: "https://api-sepolia.etherscan.io/api",
+            //         browserURl: "https://sepolia.etherscan.io",
+            //     },
+            // },
+        ],
+    },
     gasReporter: {
         enabled: false,
         currency: "USD",
@@ -39,5 +58,8 @@ module.exports = {
         player: {
             default: 1,
         },
+    },
+    mocha: {
+        timeout: 300000, // 测试等待的时间上限
     },
 }

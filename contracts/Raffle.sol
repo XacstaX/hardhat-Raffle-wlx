@@ -121,7 +121,7 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
             REQUEST_CONFIRMATIONS,
             i_callbackGasLimit,
             NUM_WORDS
-        );
+        ); //这个函数实际触发了一个event，所以测试代码中 RequestedRaffleWinner是events[1]
         // Quiz... is this redundant?
         emit RequestedRaffleWinner(requestId);
     }
